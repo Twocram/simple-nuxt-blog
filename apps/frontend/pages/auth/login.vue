@@ -44,11 +44,7 @@
 import { ref } from 'vue';
 import VInput from '~/components/ui/v-input.vue';
 import VButton from '~/components/ui/v-button.vue';
-import { login } from '~/api/auth';
 
-const posts = await login();
-
-console.log(posts);
 type FormValues = {
   email: string;
   password: string;
