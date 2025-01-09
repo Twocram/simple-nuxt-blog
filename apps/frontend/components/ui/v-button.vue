@@ -5,17 +5,15 @@
 </template>
 
 <script setup lang="ts">
-type ButtonType = "submit" | "reset" | "button"
+type ButtonType = 'submit' | 'reset' | 'button';
 
 type Props = {
-  type?: ButtonType
-}
+  type?: ButtonType;
+};
 
 withDefaults(defineProps<Props>(), {
-  type: "button"
-})
+  type: 'button',
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

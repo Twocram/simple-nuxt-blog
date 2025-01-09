@@ -1,13 +1,7 @@
 <template>
-  <div class="text-lg font-bold leading-tight text-red-600">
-    index page
-  </div>
+  <div class="text-lg font-bold leading-tight text-red-600">index page</div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
