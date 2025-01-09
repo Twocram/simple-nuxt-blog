@@ -1,7 +1,7 @@
-export const useMyFetch = (url: string, options?: any) => {
+export const useMyFetch = (url: string, options?: any): Promise<any> => {
   const config = useRuntimeConfig();
 
-  return useFetch(url, {
+  return $fetch(url, {
     baseURL: config.public.apiBase,
     ...options,
   });

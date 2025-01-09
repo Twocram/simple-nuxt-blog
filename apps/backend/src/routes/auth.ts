@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { generateHash } from '../utils/generateHash';
 import { uid } from 'uid/secure';
+import { generateHash } from '../utils/generateHash';
 import pick from '../utils/pick';
 
 export default async function authRoutes(fastify: FastifyInstance) {
@@ -17,7 +17,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
     });
 
     if (existUser) {
-      return reply.code(401).send({
+      return reply.code(200).send({
         data: 'User already exists',
       });
     }
@@ -25,17 +25,24 @@ export default async function authRoutes(fastify: FastifyInstance) {
     const _password = await generateHash(password);
     const token = uid(40);
 
-    await fastify.prisma.user.create({
+    const user = await fastify.prisma.user.create({
       data: {
         email,
         password: _password,
         token,
       },
     });
+
+    return reply.code(200).send({
+      data: pick(user, 'token'),
+    });
   });
 
-  fastify.get('/login', async (request, reply) => {
-    const { email } = request.body as { email: string };
+  fastify.post('/login', async (request, reply) => {
+    const { email, password } = request.body as {
+      email: string;
+      password: string;
+    };
 
     const existUser = await fastify.prisma.user.findFirst({
       where: {
@@ -44,8 +51,16 @@ export default async function authRoutes(fastify: FastifyInstance) {
     });
 
     if (!existUser) {
-      return reply.code(401).send({
+      return reply.code(200).send({
         data: 'User does not exist',
+      });
+    }
+
+    const _password = await generateHash(password);
+
+    if (!_password.equals(existUser.password)) {
+      return reply.code(200).send({
+        data: 'Invalid password',
       });
     }
 

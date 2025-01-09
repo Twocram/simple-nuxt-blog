@@ -42,8 +42,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import VInput from '~/components/ui/v-input.vue';
+import { login } from '~/api/auth';
 import VButton from '~/components/ui/v-button.vue';
+import VInput from '~/components/ui/v-input.vue';
 
 type FormValues = {
   email: string;
@@ -56,7 +57,9 @@ const form = ref<FormValues>({
 });
 
 const onSubmit = async () => {
-  console.log('hello world', form.value);
+  const data = await login(form.value);
+
+  console.log(data);
 };
 </script>
 
