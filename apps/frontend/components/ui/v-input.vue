@@ -1,13 +1,16 @@
 <template>
-  <label v-if="labelId" :for="labelId" class="block mb-2">{{ label }}</label>
-  <input
-    v-model="modelValue"
-    :type="type"
-    :id="labelId"
-    class="input w-full border-1 border-gray-300 p-2 border-round"
-    :placeholder="placeholder"
-    :required="isRequired"
-  />
+  <div class="flex flex-col">
+    <label v-if="labelId" :for="labelId" class="block mb-2">{{ label }}</label>
+    <input
+      v-model="modelValue"
+      :type="type"
+      :id="labelId"
+      :class="{ 'input-error': error }"
+      class="input w-full border-1 border-gray-300 p-2 border-round"
+      :placeholder="placeholder"
+    />
+    <div v-if="error" class="text-sm text-red-500 mt-1">{{ error }}</div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -17,8 +20,8 @@ type Props = {
   type: InputType;
   labelId?: string;
   placeholder?: string;
-  isRequired?: boolean;
   label?: string;
+  error?: string;
 };
 
 defineProps<Props>();
@@ -32,8 +35,16 @@ const modelValue = defineModel();
   transition: border-color 0.2s;
 }
 
+.input.input-error {
+  border: 1px solid #dc3545;
+}
+
 .input:focus {
   border: 1px solid #007bff;
   outline: none;
+}
+
+.input-error:focus {
+  border: 1px solid #dc3545;
 }
 </style>

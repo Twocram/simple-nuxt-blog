@@ -1,7 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { uid } from 'uid/secure';
 import { generateHash } from '../utils/generateHash';
-import pick from '../utils/pick';
 
 export default async function authRoutes(fastify: FastifyInstance) {
   fastify.post('/register', async (request, reply) => {
@@ -19,6 +18,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
     if (existUser) {
       return reply.code(200).send({
         data: 'User already exists',
+        success: false,
       });
     }
 
@@ -34,7 +34,8 @@ export default async function authRoutes(fastify: FastifyInstance) {
     });
 
     return reply.code(200).send({
-      data: pick(user, 'token'),
+      data: user.token,
+      success: true,
     });
   });
 
@@ -52,7 +53,8 @@ export default async function authRoutes(fastify: FastifyInstance) {
 
     if (!existUser) {
       return reply.code(200).send({
-        data: 'User does not exist',
+        data: 'Email or password is incorrect',
+        success: false,
       });
     }
 
@@ -60,12 +62,14 @@ export default async function authRoutes(fastify: FastifyInstance) {
 
     if (!_password.equals(existUser.password)) {
       return reply.code(200).send({
-        data: 'Invalid password',
+        data: 'Email or password is incorrect',
+        success: false,
       });
     }
 
     return reply.code(200).send({
-      data: pick(existUser, 'token'),
+      data: existUser.token,
+      success: true,
     });
   });
 }

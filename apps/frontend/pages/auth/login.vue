@@ -6,21 +6,25 @@
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
           <VInput
-            v-model="form.email"
-            type="email"
+            v-model="email"
+            v-bind="emailAttrs"
+            type="text"
             label-id="email"
             placeholder="Enter your email"
             label="Email"
+            :error="errors.email"
           />
         </div>
 
         <div class="mb-4">
           <VInput
-            v-model="form.password"
+            v-model="password"
             type="password"
+            v-bind="passwordAttrs"
             label-id="password"
             placeholder="Enter your password"
             label="Password"
+            :error="errors.password"
           />
         </div>
 
@@ -41,26 +45,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { toTypedSchema } from '@vee-validate/zod';
+import { useForm } from 'vee-validate';
+import { object, string } from 'zod';
 import { login } from '~/api/auth';
 import VButton from '~/components/ui/v-button.vue';
 import VInput from '~/components/ui/v-input.vue';
 
-type FormValues = {
-  email: string;
-  password: string;
-};
-
-const form = ref<FormValues>({
-  email: '',
-  password: '',
+const { handleSubmit, errors, defineField } = useForm({
+  validationSchema: toTypedSchema(
+    object({
+      email: string().email('Invalid email'),
+      password: string().min(6),
+    })
+  ),
 });
 
-const onSubmit = async () => {
-  const data = await login(form.value);
+const [email, emailAttrs] = defineField('email');
+const [password, passwordAttrs] = defineField('password');
 
-  console.log(data);
-};
+const onSubmit = handleSubmit(async () => {
+  const { data } = await login({
+    email: email.value as string,
+    password: password.value as string,
+  });
+
+  if (data && data.success) {
+    window.localStorage.setItem('token', data.data);
+    navigateTo('/');
+  }
+});
 </script>
 
 <style scoped></style>
