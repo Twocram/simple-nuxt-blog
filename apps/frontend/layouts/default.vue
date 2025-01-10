@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import VHeader from '~/components/ui/v-header.vue';
+import VHeader from '~/components/v-header.vue';
 </script>
 
 <style scoped></style>
