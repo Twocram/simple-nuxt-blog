@@ -64,6 +64,10 @@ import { register } from '~/api/auth';
 import VButton from '~/components/ui/v-button.vue';
 import VInput from '~/components/ui/v-input.vue';
 
+definePageMeta({
+  layout: 'auth',
+});
+
 const { handleSubmit, errors, setFieldError, defineField } = useForm({
   validationSchema: toTypedSchema(
     object({

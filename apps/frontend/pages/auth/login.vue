@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center min-h-screen bg-gray-100">
+  <div class="flex justify-center items-center min-h-screen">
     <div class="surface-card p-5 shadow-2 border-round w-96">
       <h2 class="text-center mb-4">Login</h2>
 
@@ -51,6 +51,10 @@ import { object, string } from 'zod';
 import { login } from '~/api/auth';
 import VButton from '~/components/ui/v-button.vue';
 import VInput from '~/components/ui/v-input.vue';
+
+definePageMeta({
+  layout: 'auth',
+});
 
 const { handleSubmit, errors, defineField } = useForm({
   validationSchema: toTypedSchema(
