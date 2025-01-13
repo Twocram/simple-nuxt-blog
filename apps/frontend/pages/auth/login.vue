@@ -54,7 +54,7 @@ const schema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
-const { handleSubmit, errors, defineField } = useForm({
+const { handleSubmit, errors, defineField, setErrors } = useForm({
   validationSchema: toTypedSchema(
     schema
   ),
@@ -72,6 +72,10 @@ const onSubmit = handleSubmit(async () => {
   if (data && data.success) {
     window.localStorage.setItem('token', data.data);
     navigateTo('/');
+  }
+
+  if (data && !data.success) {
+    setErrors({ email: data.data, password: data.data })
   }
 });
 </script>

@@ -60,7 +60,7 @@ const schema = z.object({
   passwordConfirm: z.string(),
 })
 
-const { handleSubmit, errors, setFieldError, defineField } = useForm({
+const { handleSubmit, errors, setErrors, defineField } = useForm({
   validationSchema: toTypedSchema(
     schema
   ),
@@ -72,7 +72,9 @@ const [passwordConfirm, passwordConfirmAttrs] = defineField('passwordConfirm');
 
 const onSubmit = handleSubmit(async () => {
   if (password.value !== passwordConfirm.value) {
-    setFieldError('passwordConfirm', 'Passwords do not match');
+    setErrors({
+      passwordConfirm: 'Passwords do not match'
+    });
     return;
   }
 
@@ -84,6 +86,10 @@ const onSubmit = handleSubmit(async () => {
   if (data && data.success) {
     window.localStorage.setItem('token', data.data);
     navigateTo('/');
+  }
+
+  if (data && !data.success) {
+    setErrors({ email: data.data, password: data.data, passwordConfirm: data.data })
   }
 });
 </script>
