@@ -35,6 +35,16 @@ import { login } from '~/api/auth';
 import VButton from '~/components/ui/v-button.vue';
 import VInput from '~/components/ui/v-input.vue';
 
+useHead({
+  title: "Login",
+  meta: [
+    {
+      name: 'description',
+      content: 'Login page',
+    }
+  ]
+})
+
 definePageMeta({
   layout: 'auth',
 });
