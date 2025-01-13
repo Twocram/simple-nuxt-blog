@@ -5,33 +5,16 @@
 
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
-          <VInput
-            v-model="email"
-            v-bind="emailAttrs"
-            type="text"
-            label-id="email"
-            placeholder="Enter your email"
-            label="Email"
-            :error="errors.email"
-          />
+          <VInput v-model="email" v-bind="emailAttrs" type="text" label-id="email" placeholder="Enter your email"
+            label="Email" :error="errors.email" />
         </div>
 
         <div class="mb-4">
-          <VInput
-            v-model="password"
-            type="password"
-            v-bind="passwordAttrs"
-            label-id="password"
-            placeholder="Enter your password"
-            label="Password"
-            :error="errors.password"
-          />
+          <VInput v-model="password" type="password" v-bind="passwordAttrs" label-id="password"
+            placeholder="Enter your password" label="Password" :error="errors.password" />
         </div>
 
-        <VButton
-          type="submit"
-          class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600"
-        >
+        <VButton type="submit" class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600">
           Login
         </VButton>
       </form>
@@ -47,7 +30,7 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
-import { object, string } from 'zod';
+import { z } from 'zod';
 import { login } from '~/api/auth';
 import VButton from '~/components/ui/v-button.vue';
 import VInput from '~/components/ui/v-input.vue';
@@ -56,12 +39,14 @@ definePageMeta({
   layout: 'auth',
 });
 
+const schema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+})
+
 const { handleSubmit, errors, defineField } = useForm({
   validationSchema: toTypedSchema(
-    object({
-      email: string().email('Invalid email'),
-      password: string().min(6),
-    })
+    schema
   ),
 });
 
