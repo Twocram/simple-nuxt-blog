@@ -1,6 +1,8 @@
 import fastifyCors from '@fastify/cors';
+import multipart from '@fastify/multipart';
 import fastify, { FastifyInstance } from 'fastify';
 import prismaPlugin from './plugins/prisma';
+import typesPlugin from './plugins/types';
 import authRoutes from './routes/auth';
 import testRoutes from './routes/test';
 import postRoutes from './routes/post';
@@ -12,8 +14,9 @@ const server: FastifyInstance = fastify({
 
 // Register plugins
 server.register(prismaPlugin);
+server.register(typesPlugin);
 server.register(fastifyCors);
-
+server.register(multipart);
 // Register routes
 server.register(testRoutes, { prefix: '/api/v1/test' });
 server.register(authRoutes, { prefix: '/api/v1/auth' });

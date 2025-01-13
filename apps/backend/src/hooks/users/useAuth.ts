@@ -1,6 +1,6 @@
 import { preHandlerHookHandler } from 'fastify';
 
-export const useAuth: preHandlerHookHandler = async (request, reply) => {
+export const useAuth: preHandlerHookHandler = async function (request, reply) {
   const token = request.headers.authorization?.split(' ')[1];
 
   if (!token) {
@@ -11,7 +11,7 @@ export const useAuth: preHandlerHookHandler = async (request, reply) => {
   }
 
   try {
-    const user = await request.server.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         token,
       },
