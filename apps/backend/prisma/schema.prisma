@@ -25,7 +25,7 @@ model User {
 }
 
 model Post {
-  id          Int    @id
+  id          Int    @id @default(autoincrement())
   image       String
   caption     String
   description String
@@ -35,4 +35,11 @@ model Post {
   User User @relation(fields: [userId], references: [id])
 
   @@map("posts")
+}
+
+model File {
+  id        Int    @id @default(autoincrement())
+  name      String
+  extension String
+  url       String
 }
