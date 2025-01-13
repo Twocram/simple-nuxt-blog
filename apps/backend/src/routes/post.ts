@@ -1,7 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import pick from '../utils/pick';
+import { useAuth } from '../hooks/users/useAuth';
 
 export default async function postRoutes(fastify: FastifyInstance) {
+  fastify.addHook('onRequest', useAuth);
+
   fastify.get('/', async (_, reply) => {
     const posts = await fastify.prisma.post.findMany();
 
