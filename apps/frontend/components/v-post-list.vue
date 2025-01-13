@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Post } from '~/types/post';
 import VPostListItem from './v-post-list-item.vue';
 
 type Props = {
-  posts: any;
+  posts: Omit<Post, 'userId'>[];
 };
 
 defineProps<Props>();

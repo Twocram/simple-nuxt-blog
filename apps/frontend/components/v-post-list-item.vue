@@ -12,8 +12,10 @@
 </template>
 
 <script setup lang="ts">
+import type { Post } from '~/types/post';
+
 type Props = {
-  post: any;
+  post: Omit<Post, 'userId'>;
 };
 
 defineProps<Props>();
