@@ -4,6 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "dev:back": "npm run dev --prefix apps/backend",
+    "dev:front": "npm run dev --prefix apps/frontend",
     "lint": "eslint ./apps --fix",
     "format": "prettier --write ."
   },
