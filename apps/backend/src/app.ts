@@ -8,6 +8,7 @@ import authRoutes from './routes/auth';
 import testRoutes from './routes/test';
 import postRoutes from './routes/post';
 import uploadRoutes from './routes/upload';
+import accountRoutes from './routes/account';
 import path from 'node:path';
 
 const server: FastifyInstance = fastify({
@@ -29,6 +30,7 @@ server.register(testRoutes, { prefix: '/api/v1/test' });
 server.register(authRoutes, { prefix: '/api/v1/auth' });
 server.register(uploadRoutes, { prefix: '/api/v1/upload' });
 server.register(postRoutes, { prefix: '/api/v1/post' });
+server.register(accountRoutes, { prefix: '/api/v1/account' });
 
 async function runServer() {
   try {
