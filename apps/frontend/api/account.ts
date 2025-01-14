@@ -5,7 +5,9 @@ export async function getAccount(): Promise<{
   success: boolean;
 }> {
   try {
-    const token = window.localStorage.getItem('token');
+    const token = import.meta.client
+      ? window.localStorage.getItem('token')
+      : null;
     const response = (await useMyFetch('/account', {
       method: 'GET',
       headers: {

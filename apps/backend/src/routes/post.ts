@@ -37,11 +37,11 @@ export default async function postRoutes(fastify: FastifyInstance) {
   });
 
   fastify.post('/', async (request, reply) => {
-    const { userId, caption, description, imageUrl } = request.body as {
+    const { userId, caption, description, image } = request.body as {
       userId: number;
       caption: string;
       description: string;
-      imageUrl: string;
+      image: string;
     };
 
     const post = await fastify.prisma.post.create({
@@ -49,7 +49,7 @@ export default async function postRoutes(fastify: FastifyInstance) {
         userId,
         caption,
         description,
-        image: imageUrl,
+        image,
       },
     });
 

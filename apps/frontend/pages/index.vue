@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col mt-5">
     <div class="flex items-center self-center">
-      <VInput v-model="postName" placeholder="Find post by title name" />
+      <UiVInput v-model="postName" placeholder="Find post by title name" />
     </div>
 
     <div class="grid grid-cols-3">
@@ -12,16 +12,27 @@
 
 <script setup lang="ts">
 import { getAccount } from '~/api/account';
-import VInput from '~/components/ui/v-input.vue';
+
+useHead({
+  title: 'Posts',
+  meta: [
+    {
+      name: 'description',
+      content: 'Posts page',
+    }
+  ]
+})
 
 const postName = ref<string>('')
 const userStore = useUserStore()
 
-const userAccount = await getAccount()
+onMounted(async () => {
+  const userAccount = await getAccount()
 
-if (userAccount.data && userAccount.success) {
-  userStore.setUser(userAccount.data)
-}
+  if (userAccount.data && userAccount.success) {
+    userStore.setUser(userAccount.data)
+  }
+})
 
 </script>
 

@@ -5,23 +5,23 @@
 
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
-          <VInput v-model="email" v-bind="emailAttrs" type="email" label-id="email" placeholder="Enter your email"
+          <UiVInput v-model="email" v-bind="emailAttrs" type="email" label-id="email" placeholder="Enter your email"
             label="Email" :error="errors.email" />
         </div>
 
         <div class="mb-4">
-          <VInput v-model="password" v-bind="passwordAttrs" type="password" label-id="password"
+          <UiVInput v-model="password" v-bind="passwordAttrs" type="password" label-id="password"
             placeholder="Enter your password" label="Password" :error="errors.password" />
         </div>
 
         <div class="mb-4">
-          <VInput v-model="passwordConfirm" v-bind="passwordConfirmAttrs" type="password" label-id="password-confirm"
+          <UiVInput v-model="passwordConfirm" v-bind="passwordConfirmAttrs" type="password" label-id="password-confirm"
             placeholder="Confirm your password" label="Confirm password" :error="errors.passwordConfirm" />
         </div>
 
-        <VButton type="submit" class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600">
+        <UiVButton type="submit" class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600">
           Login
-        </VButton>
+        </UiVButton>
       </form>
 
       <p class="text-center mt-4 text-sm">
@@ -37,8 +37,6 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { z } from 'zod';
 import { register } from '~/api/auth';
-import VButton from '~/components/ui/v-button.vue';
-import VInput from '~/components/ui/v-input.vue';
 
 useHead({
   title: "Register",
