@@ -1,8 +1,14 @@
 <template>
   <div class="flex flex-col">
     <label v-if="labelId" :for="labelId" class="block mb-2">{{ label }}</label>
-    <input v-model="modelValue" :type="type" :id="labelId" :class="{ 'input-error': error }"
-      class="input w-full border-1 border-gray-300 p-2 rounded-md" :placeholder="placeholder" />
+    <input
+      v-model="modelValue"
+      :type="type"
+      :id="labelId"
+      :class="{ 'input-error': error }"
+      class="input w-full border-1 border-gray-300 p-2 rounded-md"
+      :placeholder="placeholder"
+    />
     <div v-if="error" class="text-sm text-red-500 mt-1">{{ error }}</div>
   </div>
 </template>
@@ -19,7 +25,7 @@ type Props = {
 };
 
 withDefaults(defineProps<Props>(), {
-  type: 'text'
+  type: 'text',
 });
 
 const modelValue = defineModel();

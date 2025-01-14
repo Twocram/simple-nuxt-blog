@@ -5,21 +5,45 @@
 
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
-          <UiVInput v-model="email" v-bind="emailAttrs" type="email" label-id="email" placeholder="Enter your email"
-            label="Email" :error="errors.email" />
+          <UiVInput
+            v-model="email"
+            v-bind="emailAttrs"
+            type="email"
+            label-id="email"
+            placeholder="Enter your email"
+            label="Email"
+            :error="errors.email"
+          />
         </div>
 
         <div class="mb-4">
-          <UiVInput v-model="password" v-bind="passwordAttrs" type="password" label-id="password"
-            placeholder="Enter your password" label="Password" :error="errors.password" />
+          <UiVInput
+            v-model="password"
+            v-bind="passwordAttrs"
+            type="password"
+            label-id="password"
+            placeholder="Enter your password"
+            label="Password"
+            :error="errors.password"
+          />
         </div>
 
         <div class="mb-4">
-          <UiVInput v-model="passwordConfirm" v-bind="passwordConfirmAttrs" type="password" label-id="password-confirm"
-            placeholder="Confirm your password" label="Confirm password" :error="errors.passwordConfirm" />
+          <UiVInput
+            v-model="passwordConfirm"
+            v-bind="passwordConfirmAttrs"
+            type="password"
+            label-id="password-confirm"
+            placeholder="Confirm your password"
+            label="Confirm password"
+            :error="errors.passwordConfirm"
+          />
         </div>
 
-        <UiVButton type="submit" class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600">
+        <UiVButton
+          type="submit"
+          class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600"
+        >
           Login
         </UiVButton>
       </form>
@@ -39,14 +63,14 @@ import { z } from 'zod';
 import { register } from '~/api/auth';
 
 useHead({
-  title: "Register",
+  title: 'Register',
   meta: [
     {
       name: 'description',
       content: 'Register page',
-    }
-  ]
-})
+    },
+  ],
+});
 
 definePageMeta({
   layout: 'auth',
@@ -56,12 +80,10 @@ const schema = z.object({
   email: z.string().email('Invalid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   passwordConfirm: z.string(),
-})
+});
 
 const { handleSubmit, errors, setErrors, defineField } = useForm({
-  validationSchema: toTypedSchema(
-    schema
-  ),
+  validationSchema: toTypedSchema(schema),
 });
 
 const [email, emailAttrs] = defineField('email');
@@ -71,7 +93,7 @@ const [passwordConfirm, passwordConfirmAttrs] = defineField('passwordConfirm');
 const onSubmit = handleSubmit(async () => {
   if (password.value !== passwordConfirm.value) {
     setErrors({
-      passwordConfirm: 'Passwords do not match'
+      passwordConfirm: 'Passwords do not match',
     });
     return;
   }
@@ -87,7 +109,11 @@ const onSubmit = handleSubmit(async () => {
   }
 
   if (data && !data.success) {
-    setErrors({ email: data.data, password: data.data, passwordConfirm: data.data })
+    setErrors({
+      email: data.data,
+      password: data.data,
+      passwordConfirm: data.data,
+    });
   }
 });
 </script>
