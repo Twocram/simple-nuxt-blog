@@ -23,7 +23,7 @@ export async function createPost(
   }
 }
 
-export async function getPosts(): Promise<{
+export async function getPosts(query: string): Promise<{
   data: Omit<Post, 'userId'>[] | null;
   success: false;
 }> {
@@ -31,7 +31,7 @@ export async function getPosts(): Promise<{
     const token = import.meta.client
       ? window.localStorage.getItem('token')
       : null;
-    const response = await useMyFetch('/post', {
+    const response = await useMyFetch('/post?q=' + query, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

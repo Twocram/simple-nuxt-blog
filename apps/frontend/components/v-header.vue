@@ -9,14 +9,14 @@
       <div class="text-xl">Hello, <span class="font-bold">{{ userEmail }}</span></div>
     </div>
 
-    <div class="text-xl text-black cursor-pointer hover:text-red-600 transition duration-300">
+    <div @click="logoutHandler" class="text-xl text-black cursor-pointer hover:text-red-600 transition duration-300">
       Logout
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore()
+const userStore = useAccountStore()
 
 const userEmail = computed<string>(() => {
   if (userStore.user) {
@@ -25,6 +25,10 @@ const userEmail = computed<string>(() => {
 
   return ""
 })
+
+const logoutHandler = () => {
+  userStore.logout()
+}
 </script>
 
 <style scoped>

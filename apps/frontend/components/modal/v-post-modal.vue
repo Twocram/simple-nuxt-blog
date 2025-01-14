@@ -1,8 +1,8 @@
 <template>
-    <div class="modal-wrapper absolute h-full w-full top-0 left-0 ">
+    <div class="modal-wrapper absolute h-full w-full top-0 left-0" @click.self="emits('close')">
         <div
             class="absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white max-w-[600px] w-full min-h-52 rounded-md">
-            <div class="absolute right-4 top-4 cursor-pointer w-6 h-6 hover:text-gray-500">
+            <div class="absolute right-4 top-4 cursor-pointer w-6 h-6 hover:text-gray-500" @click="emits('close')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -30,7 +30,9 @@ import { useForm } from "vee-validate";
 import { z } from "zod"
 import { createPost } from "~/api/post";
 
-const userStore = useUserStore();
+const userStore = useAccountStore();
+
+const emits = defineEmits(['close'])
 
 const schema = z.object({
     title: z.string(),
@@ -55,7 +57,9 @@ const onSubmit = handleSubmit(async () => {
         userId: userStore.user!.id
     })
 
-    console.log(response)
+    if (response.success && response.data) {
+        emits('close')
+    }
 })
 
 </script>

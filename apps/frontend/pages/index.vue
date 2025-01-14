@@ -1,13 +1,22 @@
 <template>
+  <ModalVPostModal v-if="isOpenCreateModal" @close="closeModalHandler" />
   <div class="flex flex-col mt-5">
-    <div class="flex items-center self-center">
-      <UiVInput v-model="postName" placeholder="Find post by title name" />
+    <div class="flex items-center gap-3 self-center">
+      <UiVInput class="w-full" v-model="postName" placeholder="Find post by title name" />
     </div>
 
-    <div class="grid grid-cols-3 p-4" v-if="posts.length > 0">
-      <VPostList :posts="posts" />
-    </div>
+    <div class="p-4">
+      <div class="w-32 mb-2">
+        <UiVButton @click="isOpenCreateModal = true"
+          class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600">
+          Create Post
+        </UiVButton>
+      </div>
 
+      <div v-if="posts.length > 0">
+        <VPostList :posts="posts" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -27,8 +36,18 @@ useHead({
 })
 
 const postName = ref<string>('')
-const userStore = useUserStore()
+const userStore = useAccountStore()
 const posts = ref<Omit<Post, 'userId'>[]>([])
+
+const isOpenCreateModal = ref<boolean>(false)
+
+async function fetchPosts() {
+  const _posts = await getPosts(postName.value)
+
+  if (_posts.success && _posts.data) {
+    posts.value = _posts.data
+  }
+}
 
 onMounted(async () => {
   const userAccount = await getAccount()
@@ -37,11 +56,17 @@ onMounted(async () => {
     userStore.setUser(userAccount.data)
   }
 
-  const _posts = await getPosts()
+  await fetchPosts()
+})
 
-  if (_posts.success && _posts.data) {
-    posts.value = _posts.data
-  }
+async function closeModalHandler() {
+  isOpenCreateModal.value = false
+
+  await fetchPosts()
+}
+
+watch(() => postName.value, async () => {
+  await fetchPosts()
 })
 
 </script>

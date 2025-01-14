@@ -10,8 +10,8 @@
         </div>
 
         <div class="mb-4">
-          <UiVInput type="password" v-bind="passwordAttrs" label-id="password" placeholder="Enter your password"
-            label="Password" :error="errors.password" />
+          <UiVInput v-model="password" type="password" v-bind="passwordAttrs" label-id="password"
+            placeholder="Enter your password" label="Password" :error="errors.password" />
         </div>
 
         <UiVButton type="submit" class="bg-blue-500 text-white border-none rounded-lg cursor-pointer hover:bg-blue-600">

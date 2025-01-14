@@ -5,8 +5,16 @@ import { useAuth } from '../hooks/users/useAuth';
 export default async function postRoutes(fastify: FastifyInstance) {
   fastify.addHook('onRequest', useAuth);
 
-  fastify.get('/', async (_, reply) => {
-    const posts = await fastify.prisma.post.findMany();
+  fastify.get('/', async (request, reply) => {
+    const queryValue = request.query as { [key: string]: string };
+
+    const posts = await fastify.prisma.post.findMany({
+      where: {
+        caption: {
+          contains: queryValue?.q,
+        },
+      },
+    });
 
     const _posts = posts.map((post) =>
       pick(post, 'id', 'caption', 'description', 'image')
