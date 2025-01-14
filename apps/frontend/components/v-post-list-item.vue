@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-60 border-1 border-gray-300 rounded-md">
+  <div class="max-w-60 border overflow-hidden border-gray-600 rounded-md">
     <div class="w-full">
       <img :src="post.image" :alt="post.caption" />
     </div>

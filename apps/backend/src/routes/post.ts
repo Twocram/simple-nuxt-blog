@@ -8,8 +8,12 @@ export default async function postRoutes(fastify: FastifyInstance) {
   fastify.get('/', async (_, reply) => {
     const posts = await fastify.prisma.post.findMany();
 
+    const _posts = posts.map((post) =>
+      pick(post, 'id', 'caption', 'description', 'image')
+    );
+
     return reply.code(200).send({
-      data: posts,
+      data: _posts,
       success: true,
     });
   });
