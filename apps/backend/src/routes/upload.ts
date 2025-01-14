@@ -27,8 +27,10 @@ export default async function uploadRoutes(fastify: FastifyInstance) {
 
     pump(file.file, storedFile);
 
+    const fileURL = `${request.protocol}://${request.headers.host}/uploads/${_file.id}-${file.filename}`;
+
     return reply.code(200).send({
-      data: 'File uploaded',
+      data: fileURL,
       success: true,
     });
   });
